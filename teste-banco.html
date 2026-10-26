@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teste do banco - IM Bíblias</title>
+</head>
+<body>
+  <h1>Teste de conexão — IM Bíblias</h1>
+  <p id="status">Conectando ao banco...</p>
+  <ul id="produtos"></ul>
+
+  <script type="module">
+    import { supabase } from './js/supabase.js';
+
+    const status = document.getElementById('status');
+    const lista = document.getElementById('produtos');
+
+    async function testarConexao() {
+      const { data, error } = await supabase
+        .from('produtos')
+        .select('id, nome, categoria, preco, estoque')
+        .eq('ativo', true)
+        .limit(5);
+
+      if (error) {
+        status.textContent = 'Erro na conexão: ' + error.message;
+        console.error(error);
+        return;
+      }
+
+      status.textContent =
+        'Conexão realizada! Produtos encontrados: ' + data.length;
+
+      if (data.length === 0) {
+        lista.innerHTML = '<li>O banco está conectado, mas ainda não há produtos ativos cadastrados.</li>';
+        return;
+      }
+
+      data.forEach((produto) => {
+        const item = document.createElement('li');
+        item.textContent =
+          `${produto.nome} — R$ ${Number(produto.preco).toFixed(2)} — Estoque: ${produto.estoque}`;
+        lista.appendChild(item);
+      });
+    }
+
+    testarConexao();
+  </script>
+</body>
+</html>

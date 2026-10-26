@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="IM Bíblias - Bíblias, Harpas, livros e literatura cristã."
+    >
+
+    <title>IM Bíblias | Livros e Bíblias</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         CABEÇALHO
+    ====================================================== -->
+
+    <header class="header">
+
+        <div class="header-container">
+
+
+            <!-- LOGO -->
+
+            <a
+                href="index.html"
+                class="logo-area"
+                aria-label="IM Bíblias - Página inicial"
+            >
+
+                <img
+                    src="assets/img/logo.png"
+                    alt="Logo da IM Bíblias"
+                >
+
+                <span class="brand-name">
+                    IM
+                </span>
+
+            </a>
+
+
+            <!-- =================================================
+                 MENU
+            ================================================== -->
+           
+            <button
+    type="button"
+    class="menu-toggle"
+    aria-label="Abrir menu"
+    aria-expanded="false"
+>
+    ☰
+</button>
+            <nav
+                class="menu"
+                aria-label="Menu principal"
+            >
+
+                <a href="index.html">
+                    Início
+                </a>
+
+                <a href="produtos.html?categoria=biblia">
+                    Bíblias
+                </a>
+
+                <a href="produtos.html?categoria=harpa">
+                    Harpas
+                </a>
+
+                <a href="produtos.html?categoria=livro">
+                    Livros
+                </a>
+
+                <a href="produtos.html?categoria=ofertas">
+                    Ofertas
+                </a>
+
+            </nav>
+
+
+            <!-- =================================================
+                 PESQUISA / PERFIL / CARRINHO
+            ================================================== -->
+
+            <div class="header-actions">
+
+
+                <!-- PESQUISA -->
+
+                <a
+                    href="produtos.html"
+                    class="search-button"
+                    aria-label="Pesquisar produtos"
+                    title="Pesquisar produtos"
+                >
+                    🔍
+                </a>
+
+
+                <!-- PERFIL -->
+
+               <a
+    href="login.html"
+    class="profile-button"
+    aria-label="Entrar"
+    title="Entrar"
+>
+    👤
+</a>
+
+
+                <!-- CARRINHO -->
+
+                <a
+                    href="carrinho.html"
+                    class="cart-button"
+                    aria-label="Carrinho de compras"
+                    title="Carrinho de compras"
+                >
+
+                    🛒
+
+                    <span id="cart-count">
+                        0
+                    </span>
+
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         CONTEÚDO PRINCIPAL
+    ====================================================== -->
+
+    <main>
+
+
+        <!-- =================================================
+             HERO
+        ================================================== -->
+
+        <section class="hero">
+
+            <div class="hero-content">
+
+
+                <p class="hero-small">
+                    IM BÍBLIAS
+                </p>
+
+
+                <h1>
+                    Bíblias, livros e
+                    <br>
+
+                    <span>
+                        literatura cristã
+                    </span>
+                </h1>
+
+
+                <p>
+                    Encontre livros para fortalecer sua fé,
+                    sua caminhada e seu conhecimento da Palavra.
+                </p>
+
+
+                <a
+                    href="produtos.html"
+                    class="gold-button"
+                >
+                    VER PRODUTOS
+                </a>
+
+
+            </div>
+
+
+            <!-- DECORAÇÃO -->
+
+            <div
+                class="hero-decoration"
+                aria-hidden="true"
+            >
+
+                <div class="cross">
+                    ✝
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             CATEGORIAS
+        ================================================== -->
+
+        <section class="section">
+
+
+            <div class="section-title">
+
+                <p>
+                    CATEGORIAS
+                </p>
+
+                <h2>
+                    Encontre o que você procura
+                </h2>
+
+            </div>
+
+
+
+            <div class="categories">
+
+
+                <!-- BÍBLIAS -->
+
+                <a
+                    href="produtos.html?categoria=biblia"
+                    class="category-card"
+                    aria-label="Ver Bíblias"
+                >
+
+                    <div
+                        class="category-icon"
+                        aria-hidden="true"
+                    >
+                        📖
+                    </div>
+
+                    <h3>
+                        Bíblias
+                    </h3>
+
+                    <p>
+                        Diferentes versões e modelos
+                    </p>
+
+                </a>
+
+
+
+                <!-- HARPAS -->
+
+                <a
+                    href="produtos.html?categoria=harpa"
+                    class="category-card"
+                    aria-label="Ver Harpas"
+                >
+
+                    <div
+                        class="category-icon"
+                        aria-hidden="true"
+                    >
+                        🎵
+                    </div>
+
+                    <h3>
+                        Harpas
+                    </h3>
+
+                    <p>
+                        Harpas Cristãs
+                    </p>
+
+                </a>
+
+
+
+                <!-- LIVROS -->
+
+                <a
+                    href="produtos.html?categoria=livro"
+                    class="category-card"
+                    aria-label="Ver Livros"
+                >
+
+                    <div
+                        class="category-icon"
+                        aria-hidden="true"
+                    >
+                        📚
+                    </div>
+
+                    <h3>
+                        Livros
+                    </h3>
+
+                    <p>
+                        Literatura cristã
+                    </p>
+
+                </a>
+
+
+
+                <!-- OFERTAS -->
+
+                <a
+                    href="produtos.html?categoria=ofertas"
+                    class="category-card"
+                    aria-label="Ver Ofertas"
+                >
+
+                    <div
+                        class="category-icon"
+                        aria-hidden="true"
+                    >
+                        🏷️
+                    </div>
+
+                    <h3>
+                        Ofertas
+                    </h3>
+
+                    <p>
+                        Produtos em promoção
+                    </p>
+
+                </a>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             PRODUTOS EM DESTAQUE
+        ================================================== -->
+
+        <section class="section products-section">
+
+
+            <div class="section-title">
+
+                <p>
+                    DESTAQUES
+                </p>
+
+                <h2>
+                    Produtos em destaque
+                </h2>
+
+                <a
+                    href="produtos.html"
+                    class="view-all"
+                >
+                    Ver todos →
+                </a>
+
+            </div>
+
+
+            <!--
+                Os produtos serão inseridos
+                pelo JavaScript.
+            -->
+
+            
+<div class="featured-carousel">
+
+    <button
+        type="button"
+        class="featured-arrow featured-prev"
+        aria-label="Produtos anteriores"
+    >
+        &#10094;
+    </button>
+
+    <div
+        id="featured-products"
+        class="products-grid featured-products-track"
+    ></div>
+
+    <button
+        type="button"
+        class="featured-arrow featured-next"
+        aria-label="Próximos produtos"
+    >
+        &#10095;
+    </button>
+
+</div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             SOBRE A LOJA
+        ================================================== -->
+
+        <section class="about">
+
+            <div class="about-content">
+
+
+                <p class="gold-text">
+                    IM BÍBLIAS
+                </p>
+
+
+                <h2>
+                    Sabedoria & Fé
+                </h2>
+
+
+                <p>
+                    Bíblias, livros e produtos cristãos
+                    para acompanhar sua caminhada de fé.
+                </p>
+
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =====================================================
+         RODAPÉ
+    ====================================================== -->
+
+    <footer class="footer">
+
+
+        <!-- SOBRE -->
+
+        <div>
+
+            <h3>
+                IM Bíblias
+            </h3>
+
+            <p>
+                Bíblias, livros e produtos cristãos.
+            </p>
+
+        </div>
+
+
+        <!-- ATENDIMENTO -->
+
+        <div>
+
+            <h4>
+                Atendimento
+            </h4>
+
+            <p>
+                📍 Capela - AL
+            </p>
+
+            <p>
+                🚚 Entregas em Capela
+            </p>
+
+        </div>
+
+
+        <!-- CONTATO -->
+
+        <div>
+
+            <h4>
+                Contato
+            </h4>
+
+            <p>
+                WhatsApp
+            </p>
+
+            <p>
+                Instagram
+            </p>
+
+        </div>
+
+
+    </footer>
+
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+
+    <script src="js/script.js"></script>
+
+<script>
+    const botaoMenu = document.querySelector('.menu-toggle');
+    const menu = document.querySelector('.menu');
+
+    if (botaoMenu && menu) {
+        botaoMenu.addEventListener('click', () => {
+            const aberto = menu.classList.toggle('menu-open');
+
+            botaoMenu.textContent = aberto ? '✕' : '☰';
+            botaoMenu.setAttribute('aria-expanded', String(aberto));
+            botaoMenu.setAttribute(
+                'aria-label',
+                aberto ? 'Fechar menu' : 'Abrir menu'
+            );
+        });
+
+        menu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.remove('menu-open');
+                botaoMenu.textContent = '☰';
+                botaoMenu.setAttribute('aria-expanded', 'false');
+                botaoMenu.setAttribute('aria-label', 'Abrir menu');
+            });
+        });
+    }
+</script>
+
+</body>
+
+</html>

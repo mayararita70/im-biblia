@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Produtos | IM Bíblias</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="header-container">
+
+        <!-- LOGO -->
+        <a href="index.html" class="logo-area">
+
+            <img
+                src="assets/img/logo.png"
+                alt="IM Bíblias"
+            >
+
+            <span class="brand-name">
+                IM
+            </span>
+
+        </a>
+
+
+        <!-- MENU -->
+        <nav class="menu">
+
+            <a href="index.html">
+                Início
+            </a>
+
+            <a href="produtos.html?categoria=biblia">
+                Bíblias
+            </a>
+
+            <a href="produtos.html?categoria=harpa">
+                Harpas
+            </a>
+
+            <a href="produtos.html?categoria=livro">
+                Livros
+            </a>
+
+        </nav>
+
+
+        <!-- CARRINHO -->
+        <a
+            href="carrinho.html"
+            class="cart-button"
+            aria-label="Abrir carrinho"
+            title="Carrinho"
+        >
+
+            <span class="cart-icon">
+                🛒
+            </span>
+
+            <span id="cart-count">
+                0
+            </span>
+
+        </a>
+
+    </div>
+
+</header>
+
+
+<main>
+
+
+    <!-- =========================
+         CABEÇALHO DO CATÁLOGO
+    ========================== -->
+
+    <section class="catalog-header">
+
+        <div class="catalog-header-content">
+
+            <p class="catalog-label">
+                IM BÍBLIAS
+            </p>
+
+            <h1>
+                Nossos produtos
+            </h1>
+
+            <p class="catalog-description">
+                Encontre Bíblias, Harpas e livros para
+                acompanhar sua caminhada de fé.
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         CATÁLOGO
+    ========================== -->
+
+    <section class="catalog">
+
+
+        <!-- =========================
+             FILTROS
+        ========================== -->
+<button
+    type="button"
+    class="filter-toggle"
+    id="filter-toggle"
+    aria-expanded="false"
+    aria-controls="catalog-filters"
+>
+    ☰ Filtrar produtos
+</button>
+        <aside class="filters" id="catalog-filters">
+
+            <div class="filters-header">
+
+                <p>
+                    CATÁLOGO
+                </p>
+
+                <h2>
+                    Filtrar produtos
+                </h2>
+
+            </div>
+
+
+            <!-- PESQUISA -->
+
+            <div class="filter-group">
+
+                <label for="search">
+                    Pesquisar
+                </label>
+
+                <div class="search-box">
+
+                    <span class="search-icon">
+                        🔍
+                    </span>
+
+                    <input
+                        type="text"
+                        id="search"
+                        placeholder="Digite o nome do produto..."
+                    >
+
+                </div>
+
+            </div>
+
+
+
+            <!-- CATEGORIAS -->
+
+            <div class="filter-group">
+
+                <label>
+                    Categoria
+                </label>
+
+
+                <div class="filter-buttons">
+
+
+                    <button
+                        type="button"
+                        class="filter-button active"
+                        data-category="todos"
+                    >
+                        Todos
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="filter-button"
+                        data-category="biblia"
+                    >
+                        <span>📖</span>
+                        Bíblias
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="filter-button"
+                        data-category="harpa"
+                    >
+                        <span>🎵</span>
+                        Harpas
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="filter-button"
+                        data-category="livro"
+                    >
+                        <span>📚</span>
+                        Livros
+                    </button>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ORDENAÇÃO -->
+
+            <div class="filter-group">
+
+                <label for="price-filter">
+                    Ordenar por
+                </label>
+
+                <select id="price-filter">
+
+                    <option value="default">
+                        Mais relevantes
+                    </option>
+
+                    <option value="low">
+                        Menor preço
+                    </option>
+
+                    <option value="high">
+                        Maior preço
+                    </option>
+
+                </select>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- =========================
+             PRODUTOS
+        ========================== -->
+
+        <div class="catalog-products">
+
+
+            <!-- TOPO DOS PRODUTOS -->
+
+            <div class="catalog-top">
+
+                <div>
+
+                    <p class="catalog-results-label">
+                        PRODUTOS
+                    </p>
+
+                    <span id="product-result">
+                        Produtos disponíveis
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- LISTA DE PRODUTOS -->
+
+            <div
+                id="products-list"
+                class="products-grid"
+            >
+
+                <!--
+                    Os produtos serão
+                    inseridos pelo JavaScript.
+                -->
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+</main>
+
+
+
+<!-- =========================
+     RODAPÉ
+========================== -->
+
+<footer class="footer">
+
+
+    <div>
+
+        <h3>
+            IM Bíblias
+        </h3>
+
+        <p>
+            Bíblias, livros e produtos cristãos.
+        </p>
+
+    </div>
+
+
+    <div>
+
+        <h4>
+            Atendimento
+        </h4>
+
+        <p>
+            📍 Capela - AL
+        </p>
+
+        <p>
+            🚚 Entregas em Capela
+        </p>
+
+    </div>
+
+
+    <div>
+
+        <h4>
+            Contato
+        </h4>
+
+        <p>
+            WhatsApp
+        </p>
+
+        <p>
+            Instagram
+        </p>
+
+    </div>
+
+
+</footer>
+
+
+
+<script src="js/script.js"></script>
+
+</body>
+
+</html>

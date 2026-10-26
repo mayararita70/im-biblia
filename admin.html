@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Administração | IM Bíblias</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=Great+Vibes&display=swap');
+
+    :root {
+      --navy: #07111f;
+      --navy-card: #111f31;
+      --navy-soft: #192b40;
+      --navy-input: #091625;
+      --gold: #c9a45c;
+      --gold-light: #ead5a0;
+      --cream: #f5efe3;
+      --muted: #b7b09f;
+      --line: rgba(201, 164, 92, 0.28);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 35px 22px;
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      background:
+        radial-gradient(ellipse at top, #1b3048 0%, transparent 58%),
+        linear-gradient(145deg, #07111f, #0b1726 70%, #171b20);
+      line-height: 1.6;
+    }
+
+    h1, h2, h3 {
+      color: var(--gold-light);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 600;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      text-align: center;
+    }
+
+    h2 { margin: 0 0 22px; font-size: 1.8rem; }
+    p { color: var(--muted); }
+
+    body > main > p:not(#mensagem) {
+      text-align: center;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      color: var(--gold);
+    }
+
+    /* O painel só aparece depois da verificação de administradora. */
+    #painel {
+      display: none;
+      width: 100%;
+      max-width: 1100px;
+      margin: 28px auto;
+      padding: 32px;
+      background: rgba(17, 31, 49, 0.96);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: 0 22px 55px rgba(0, 0, 0, 0.24);
+    }
+
+    form { display: grid; gap: 10px; }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      color: var(--gold-light);
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    input:not([type="checkbox"]):not([type="file"]),
+    select,
+    textarea {
+      width: 100%;
+      min-height: 48px;
+      margin-top: 5px;
+      padding: 13px 15px;
+      color: var(--cream);
+      background: var(--navy-input);
+      border: 1px solid #3a4655;
+      border-radius: 10px;
+      outline: none;
+      font: inherit;
+    }
+
+    input[type="file"] {
+      display: block;
+      width: 100%;
+      margin-top: 8px;
+      padding: 12px;
+      color: var(--cream);
+      background: var(--navy-input);
+      border: 1px solid #3a4655;
+      border-radius: 10px;
+      font: inherit;
+    }
+
+    textarea { min-height: 110px; resize: vertical; }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(201, 164, 92, 0.13);
+    }
+
+    input[type="checkbox"] {
+      width: 17px;
+      height: 17px;
+      accent-color: var(--gold);
+      vertical-align: middle;
+    }
+
+    small {
+      display: block;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    button {
+      width: 100%;
+      min-height: 45px;
+      margin-top: 12px;
+      padding: 12px 18px;
+      border: 1px solid var(--gold);
+      border-radius: 10px;
+      color: #101722;
+      background: linear-gradient(135deg, #e2ca8e, #b68a42);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:hover { filter: brightness(1.09); }
+
+    button:disabled {
+      opacity: 0.65;
+      cursor: wait;
+    }
+
+    #cancelar, #logout, button.secundario {
+      color: var(--gold-light);
+      background: transparent;
+      border-color: var(--line);
+    }
+
+    #logout {
+      display: none;
+      max-width: 200px;
+      margin: 20px auto;
+    }
+
+    #mensagem {
+      max-width: 650px;
+      margin: 16px auto;
+      text-align: center;
+      color: var(--gold-light);
+      overflow-wrap: anywhere;
+    }
+
+    #lista-produtos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 18px;
+      margin-top: 25px;
+    }
+
+    #lista-produtos .produto {
+      padding: 20px;
+      background: linear-gradient(145deg, #1a2b3f, #101c2b);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow-wrap: anywhere;
+    }
+
+    #lista-produtos strong { color: var(--gold-light); }
+    #lista-produtos p { color: var(--cream); }
+
+    #lista-selecionados {
+      display: grid;
+      gap: 8px;
+      margin: 10px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    #lista-selecionados li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 10px;
+      background: var(--navy-input);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+    }
+
+    #lista-selecionados img {
+      width: 44px;
+      height: 44px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    #lista-selecionados .nome {
+      flex: 1;
+      min-width: 0;
+      font-size: 0.85rem;
+      overflow-wrap: anywhere;
+    }
+
+    #lista-selecionados button {
+      width: auto;
+      min-height: 34px;
+      margin: 0;
+      padding: 6px 12px;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      #painel { padding: 22px 16px; }
+      #lista-produtos { grid-template-columns: 1fr; }
+      h2 { font-size: 1.55rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Fica escondido até a verificação terminar. -->
+  <main id="conteudo" hidden>
+    <h1>IM Bíblias</h1>
+    <p>Painel administrativo</p>
+    <p id="mensagem"></p>
+
+    <section id="painel">
+      <h2>Produtos da loja</h2>
+
+      <form id="form-produto">
+        <input id="produto-id" type="hidden">
+
+        <label for="nome">Nome do produto</label>
+        <input id="nome" required>
+
+        <label for="categoria">Categoria</label>
+        <select id="categoria" required>
+          <option value="Bíblia">Bíblia</option>
+          <option value="Harpa Cristã">Harpa Cristã</option>
+          <option value="Livro">Livro</option>
+        </select>
+
+        <label for="descricao">Descrição</label>
+        <textarea id="descricao" rows="3"></textarea>
+
+        <label for="preco">Preço (R$)</label>
+        <input id="preco" type="number" min="0" step="0.01" required>
+
+        <label for="estoque">Quantidade em estoque</label>
+        <input id="estoque" type="number" min="0" step="1" required>
+
+        <label for="arquivos">Fotos e vídeos do produto</label>
+        <input
+          id="arquivos"
+          type="file"
+          accept="image/jpeg,image/png,image/webp,video/mp4,video/webm"
+          multiple
+        >
+        <small>
+          Até 5 fotos e vídeos em JPG, PNG, WebP, MP4 ou WebM.
+          Você pode escolher aos poucos: cada seleção é somada às anteriores.
+          A primeira foto será a principal se o produto ainda não tiver uma.
+        </small>
+        <ul id="lista-selecionados"></ul>
+
+        <label>
+          <input id="ativo" type="checkbox" checked style="width:auto">
+          Produto ativo
+        </label>
+
+        <button id="botao-salvar" type="submit">Salvar produto</button>
+        <button type="button" class="secundario" id="cancelar">Limpar formulário</button>
+      </form>
+
+      <h2 style="margin-top:32px">Produtos cadastrados</h2>
+      <div id="lista-produtos"></div>
+    </section>
+
+    <button id="logout" type="button">Sair do painel</button>
+  </main>
+
+  <script type="module">
+    import { supabase } from './js/supabase.js';
+
+    // Ajuste aqui se os nomes dos arquivos forem diferentes.
+    const PAGINA_LOGIN = 'login.html';
+    const PAGINA_INICIAL = 'index.html';
+
+    const conteudo = document.getElementById('conteudo');
+    const mensagem = document.getElementById('mensagem');
+    const painel = document.getElementById('painel');
+    const logout = document.getElementById('logout');
+    const lista = document.getElementById('lista-produtos');
+    const formProduto = document.getElementById('form-produto');
+    const campoArquivos = document.getElementById('arquivos');
+    const botaoSalvar = document.getElementById('botao-salvar');
+    const listaSelecionados = document.getElementById('lista-selecionados');
+
+    // Os arquivos ficam guardados aqui. O campo de arquivo do navegador
+    // sempre troca a escolha anterior, então somamos nós mesmos.
+    const MAX_ARQUIVOS = 5;
+    let arquivosSelecionados = [];
+
+    function renderSelecionados() {
+      listaSelecionados.replaceChildren();
+
+      arquivosSelecionados.forEach((arquivo, indice) => {
+        const li = document.createElement('li');
+
+        if (arquivo.type.startsWith('image/')) {
+          const mini = document.createElement('img');
+          mini.src = URL.createObjectURL(arquivo);
+          mini.alt = '';
+          mini.onload = () => URL.revokeObjectURL(mini.src);
+          li.appendChild(mini);
+        } else {
+          const icone = document.createElement('span');
+          icone.textContent = '🎬';
+          li.appendChild(icone);
+        }
+
+        const nome = document.createElement('span');
+        nome.className = 'nome';
+        nome.textContent = arquivo.name;
+
+        const remover = document.createElement('button');
+        remover.type = 'button';
+        remover.className = 'secundario';
+        remover.textContent = 'Remover';
+        remover.addEventListener('click', () => {
+          arquivosSelecionados.splice(indice, 1);
+          renderSelecionados();
+        });
+
+        li.append(nome, remover);
+        listaSelecionados.appendChild(li);
+      });
+    }
+
+    function limparSelecao() {
+      arquivosSelecionados = [];
+      campoArquivos.value = '';
+      renderSelecionados();
+    }
+
+    campoArquivos.addEventListener('change', () => {
+      const novos = Array.from(campoArquivos.files || []);
+      let deFora = 0;
+
+      for (const arq of novos) {
+        const repetido = arquivosSelecionados.some(a =>
+          a.name === arq.name &&
+          a.size === arq.size &&
+          a.lastModified === arq.lastModified
+        );
+
+        if (repetido) continue;
+
+        if (arquivosSelecionados.length >= MAX_ARQUIVOS) {
+          deFora++;
+          continue;
+        }
+
+        arquivosSelecionados.push(arq);
+      }
+
+      // Limpa o campo para poder escolher o mesmo arquivo de novo, se precisar.
+      campoArquivos.value = '';
+      renderSelecionados();
+
+      if (deFora > 0) {
+        avisar(`O limite é de ${MAX_ARQUIVOS} arquivos por vez. ${deFora} ficou de fora.`);
+      }
+    });
+
+    let usuarioAdmin = false;
+
+    function avisar(texto) {
+      mensagem.textContent = texto;
+    }
+
+    function irParaLogin() {
+      window.location.replace(PAGINA_LOGIN);
+    }
+
+    // Confere se a conta logada está na tabela "administradores".
+    // Não faz signOut: no futuro, clientes logados não devem ser deslogados aqui.
+    async function verificarAdmin() {
+      try {
+        const { data: { user }, error } = await supabase.auth.getUser();
+
+        if (error || !user) {
+          usuarioAdmin = false;
+          return false;
+        }
+
+        const { data, error: erroAdmin } = await supabase
+          .from('administradores')
+          .select('user_id')
+          .eq('user_id', user.id)
+          .maybeSingle();
+
+        usuarioAdmin = !erroAdmin && Boolean(data);
+        return usuarioAdmin;
+      } catch (erro) {
+        usuarioAdmin = false;
+        return false;
+      }
+    }
+
+    async function abrirPainel() {
+      const autorizado = await verificarAdmin();
+
+      // Quem não for administradora volta para o login (e de lá vai para a loja).
+      if (!autorizado) {
+        irParaLogin();
+        return;
+      }
+
+      conteudo.hidden = false;
+      painel.style.display = 'block';
+      logout.style.display = 'block';
+      avisar('Acesso autorizado.');
+
+      await carregarProdutos();
+    }
+
+    logout.addEventListener('click', async () => {
+      const { error } = await supabase.auth.signOut();
+
+      if (error) {
+        avisar('Erro ao sair: ' + error.message);
+        return;
+      }
+
+      usuarioAdmin = false;
+      window.location.replace(PAGINA_INICIAL);
+    });
+
+    async function carregarProdutos() {
+      const { data, error } = await supabase
+        .from('produtos')
+        .select('*')
+        .order('id', { ascending: false });
+
+      lista.replaceChildren();
+
+      if (error) {
+        avisar('Erro ao carregar produtos: ' + error.message);
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        lista.textContent = 'Nenhum produto cadastrado.';
+        return;
+      }
+
+      data.forEach((p) => {
+        const item = document.createElement('article');
+        item.className = 'produto';
+
+        if (p.imagem_url) {
+          const foto = document.createElement('img');
+          foto.src = p.imagem_url;
+          foto.alt = p.nome;
+          foto.style.width = '100%';
+          foto.style.height = '200px';
+          foto.style.objectFit = 'contain';
+          foto.style.borderRadius = '10px';
+          foto.style.marginBottom = '12px';
+          foto.loading = 'lazy';
+
+          item.appendChild(foto);
+        }
+
+        const nome = document.createElement('strong');
+        nome.textContent = p.nome;
+
+        const detalhes = document.createElement('p');
+        detalhes.textContent =
+          `${p.categoria} — R$ ${Number(p.preco).toFixed(2).replace('.', ',')}`;
+
+        const estoque = document.createElement('p');
+        estoque.textContent = `Estoque: ${p.estoque}`;
+
+        const situacao = document.createElement('p');
+        situacao.textContent = `Situação: ${p.ativo ? 'Ativo' : 'Inativo'}`;
+
+        item.append(nome, detalhes, estoque, situacao);
+
+        const editar = document.createElement('button');
+        editar.textContent = 'Editar';
+
+        editar.addEventListener('click', () => {
+          document.getElementById('produto-id').value = p.id;
+          document.getElementById('nome').value = p.nome || '';
+          document.getElementById('categoria').value = p.categoria || 'Bíblia';
+          document.getElementById('descricao').value = p.descricao || '';
+          document.getElementById('preco').value = p.preco ?? '';
+          document.getElementById('estoque').value = p.estoque ?? 0;
+          document.getElementById('ativo').checked = Boolean(p.ativo);
+
+          limparSelecao();
+          avisar('Editando produto. Se quiser, selecione novas mídias.');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        const excluir = document.createElement('button');
+        excluir.textContent = 'Excluir';
+        excluir.className = 'secundario';
+
+        excluir.addEventListener('click', async () => {
+          if (!usuarioAdmin) {
+            avisar('Sua sessão expirou. Entre novamente.');
+            irParaLogin();
+            return;
+          }
+
+          if (!confirm(`Excluir "${p.nome}"?`)) return;
+
+          const { error: erroExcluir } = await supabase
+            .from('produtos')
+            .delete()
+            .eq('id', p.id);
+
+          if (erroExcluir) {
+            avisar('Erro ao excluir: ' + erroExcluir.message);
+            return;
+          }
+
+          avisar('Produto excluído.');
+          await carregarProdutos();
+        });
+
+        item.append(editar, excluir);
+        lista.append(item);
+      });
+    }
+
+    document.getElementById('cancelar').addEventListener('click', () => {
+      formProduto.reset();
+      document.getElementById('produto-id').value = '';
+      document.getElementById('ativo').checked = true;
+      limparSelecao();
+      avisar('Formulário limpo.');
+    });
+
+    formProduto.addEventListener('submit', async (evento) => {
+      evento.preventDefault();
+
+      if (botaoSalvar.disabled) return;
+
+      botaoSalvar.disabled = true;
+      botaoSalvar.textContent = 'Salvando...';
+
+      try {
+        if (!usuarioAdmin || !await verificarAdmin()) {
+          avisar('Sua sessão expirou. Entre novamente.');
+          irParaLogin();
+          return;
+        }
+
+        const id = document.getElementById('produto-id').value;
+        const arquivos = [...arquivosSelecionados];
+
+        if (arquivos.length > 5) {
+          avisar('Selecione no máximo 5 arquivos por vez.');
+          return;
+        }
+
+        const tiposPermitidos = [
+          'image/jpeg',
+          'image/png',
+          'image/webp',
+          'video/mp4',
+          'video/webm'
+        ];
+
+        const arquivoInvalido = arquivos.find(
+          arquivo => !tiposPermitidos.includes(arquivo.type)
+        );
+
+        if (arquivoInvalido) {
+          avisar(
+            'Formato não permitido: ' + arquivoInvalido.name +
+            '. Use JPG, PNG, WebP, MP4 ou WebM.'
+          );
+          return;
+        }
+
+        const produto = {
+          nome: document.getElementById('nome').value.trim(),
+          categoria: document.getElementById('categoria').value,
+          descricao: document.getElementById('descricao').value.trim(),
+          preco: Number(document.getElementById('preco').value),
+          estoque: Number(document.getElementById('estoque').value),
+          ativo: document.getElementById('ativo').checked
+        };
+
+        if (
+          !produto.nome ||
+          document.getElementById('preco').value === '' ||
+          !Number.isFinite(produto.preco) ||
+          produto.preco < 0 ||
+          document.getElementById('estoque').value === '' ||
+          !Number.isInteger(produto.estoque) ||
+          produto.estoque < 0
+        ) {
+          avisar('Confira o nome, preço e estoque.');
+          return;
+        }
+
+        let resultado;
+
+        if (id) {
+          resultado = await supabase
+            .from('produtos')
+            .update(produto)
+            .eq('id', id)
+            .select('id, imagem_url')
+            .single();
+        } else {
+          resultado = await supabase
+            .from('produtos')
+            .insert({ ...produto, imagem_url: null })
+            .select('id, imagem_url')
+            .single();
+        }
+
+        if (resultado.error) {
+          avisar('Erro ao salvar o produto: ' + resultado.error.message);
+          return;
+        }
+
+        const produtoSalvo = resultado.data;
+        const produtoId = produtoSalvo.id;
+        const novasMidias = [];
+        let imagemPrincipal = produtoSalvo.imagem_url || null;
+
+        // Ao editar um produto que já tem mídias, continua a numeração
+        // de onde parou, para a ordem do carrossel não se repetir.
+        let ordemInicial = 0;
+
+        if (id && arquivos.length > 0) {
+          const { data: ultima } = await supabase
+            .from('produto_imagens')
+            .select('ordem')
+            .eq('produto_id', produtoId)
+            .order('ordem', { ascending: false })
+            .limit(1);
+
+          if (ultima && ultima.length > 0) {
+            ordemInicial = (ultima[0].ordem ?? -1) + 1;
+          }
+        }
+
+        for (let i = 0; i < arquivos.length; i++) {
+          const arquivo = arquivos[i];
+          const tipo = arquivo.type.startsWith('video/')
+            ? 'video'
+            : 'imagem';
+
+          const nomeSeguro = arquivo.name
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/[^a-zA-Z0-9._-]/g, '_');
+
+          const caminho = `${produtoId}/${Date.now()}-${i}-${nomeSeguro}`;
+
+          const { error: erroUpload } = await supabase
+            .storage
+            .from('produtos')
+            .upload(caminho, arquivo, {
+              cacheControl: '3600',
+              upsert: false,
+              contentType: arquivo.type
+            });
+
+          if (erroUpload) {
+            avisar(
+              'Os dados do produto foram salvos, mas o envio de "' +
+              arquivo.name + '" falhou: ' + erroUpload.message
+            );
+            return;
+          }
+
+          const { data: urlPublica } = supabase
+            .storage
+            .from('produtos')
+            .getPublicUrl(caminho);
+
+          const url = urlPublica.publicUrl;
+          const principal = tipo === 'imagem' && !imagemPrincipal;
+
+          novasMidias.push({
+            produto_id: produtoId,
+            url: url,
+            tipo: tipo,
+            principal: principal,
+            ordem: ordemInicial + i
+          });
+
+          if (principal) {
+            imagemPrincipal = url;
+          }
+        }
+
+        if (novasMidias.length > 0) {
+          const { error: erroMidias } = await supabase
+            .from('produto_imagens')
+            .insert(novasMidias);
+
+          if (erroMidias) {
+            avisar(
+              'Os dados foram salvos, mas não foi possível registrar as mídias: ' +
+              erroMidias.message
+            );
+            return;
+          }
+        }
+
+        if (
+          imagemPrincipal &&
+          imagemPrincipal !== produtoSalvo.imagem_url
+        ) {
+          const { error: erroPrincipal } = await supabase
+            .from('produtos')
+            .update({ imagem_url: imagemPrincipal })
+            .eq('id', produtoId);
+
+          if (erroPrincipal) {
+            avisar(
+              'Produto e mídias salvos, mas houve erro ao definir a foto principal: ' +
+              erroPrincipal.message
+            );
+            return;
+          }
+        }
+
+        formProduto.reset();
+        document.getElementById('produto-id').value = '';
+        document.getElementById('ativo').checked = true;
+        limparSelecao();
+
+        await carregarProdutos();
+        avisar('Produto salvo com sucesso!');
+      } catch (erro) {
+        avisar(
+          'Ocorreu um erro inesperado ao salvar: ' +
+          (erro?.message || String(erro))
+        );
+      } finally {
+        botaoSalvar.disabled = false;
+        botaoSalvar.textContent = 'Salvar produto';
+      }
+    });
+
+    // Ao abrir a página: sem sessão vai para o login; com sessão confere se é administradora.
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+
+      if (session) {
+        await abrirPainel();
+      } else {
+        irParaLogin();
+      }
+    } catch (erro) {
+      irParaLogin();
+    }
+  </script>
+</body>
+</html>

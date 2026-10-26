@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#07111f">
+    <title>Carrinho | IM Bíblias</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header class="header">
+    <div class="header-container">
+
+        <a href="index.html" class="logo-area">
+            <img src="assets/img/logo.png" alt="IM Bíblias">
+            <span class="brand-name">IM</span>
+        </a>
+
+        <nav class="menu">
+            <a href="index.html">Início</a>
+            <a href="produtos.html?categoria=biblia">Bíblias</a>
+            <a href="produtos.html?categoria=harpa">Harpas</a>
+            <a href="produtos.html?categoria=livro">Livros</a>
+        </nav>
+
+        <a href="carrinho.html" class="cart-button"
+           aria-label="Abrir carrinho">
+            <span class="cart-icon">🛒</span>
+            <span id="cart-count">0</span>
+        </a>
+    </div>
+</header>
+
+<main class="cart-page">
+
+    <section class="section-title">
+        <p>SEU PEDIDO</p>
+        <h1>Seu carrinho</h1>
+        <p>Confira seus produtos antes de finalizar a compra.</p>
+    </section>
+
+    <section class="cart-layout">
+
+        <div class="cart-items-area">
+            <div id="cart-items">
+                <p>Carregando seu carrinho...</p>
+            </div>
+        </div>
+
+        <aside class="cart-summary">
+            <p class="catalog-label">IM BÍBLIAS</p>
+            <h2>Resumo do pedido</h2>
+
+            <div class="summary-line">
+                <span>Subtotal</span>
+                <strong id="cart-total">R$ 0,00</strong>
+            </div>
+
+            <p class="delivery-info">
+                🚚 Entregas disponíveis em Capela - AL
+            </p>
+
+            <button id="whatsapp-button"
+                    class="whatsapp-button"
+                    type="button">
+                Finalizar pelo WhatsApp
+            </button>
+
+            <a href="produtos.html" class="continue-shopping">
+                ← Continuar comprando
+            </a>
+        </aside>
+
+    </section>
+</main>
+
+<footer class="footer">
+    <div>
+        <h3>IM Bíblias</h3>
+        <p>Sabedoria &amp; Fé</p>
+    </div>
+    <div>
+        <p>Bíblias, Harpas Cristãs e livros.</p>
+        <p>Capela - AL</p>
+    </div>
+</footer>
+
+<script src="js/script.js"></script>
+
+</body>
+</html>

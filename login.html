@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Entrar | IM Bíblias</title>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-dark: #0A131F;
+      --bg-dark-2: #0F1C2E;
+      --wood: #2D1810;
+      --gold: #E0B259;
+      --gold-hover: #C99C45;
+      --gold-light: #F3D685;
+      --muted: rgba(255, 255, 255, 0.70);
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 18px;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #FFFFFF;
+      line-height: 1.6;
+      background:
+        linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-dark-2) 55%, var(--wood) 100%);
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 420px;
+      padding: 36px 32px;
+      background: var(--bg-dark-2);
+      border: 1px solid rgba(224, 178, 89, 0.35);
+      border-radius: 12px;
+      box-shadow: 0 20px 55px rgba(0, 0, 0, 0.40);
+    }
+
+    .voltar {
+      display: inline-block;
+      margin-bottom: 22px;
+      color: var(--muted);
+      font-size: 13px;
+      text-decoration: none;
+    }
+
+    .voltar:hover { color: var(--gold); }
+
+    h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 2rem;
+      font-weight: 400;
+      color: var(--gold-light);
+    }
+
+    .sub {
+      margin: 4px 0 22px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    #mensagem {
+      min-height: 22px;
+      margin-bottom: 8px;
+      color: #F2B8B0;
+      font-size: 13px;
+    }
+
+    form { display: grid; gap: 6px; }
+
+    label {
+      margin-top: 8px;
+      color: var(--gold-light);
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      min-height: 46px;
+      margin-top: 4px;
+      padding: 11px 13px;
+      color: #FFFFFF;
+      background: var(--bg-dark);
+      border: 1px solid #2A3A52;
+      border-radius: 6px;
+      outline: none;
+      font: inherit;
+    }
+
+    input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(224, 178, 89, 0.15);
+    }
+
+    button {
+      width: 100%;
+      min-height: 48px;
+      margin-top: 18px;
+      border: none;
+      border-radius: 5px;
+      background: var(--gold);
+      color: var(--bg-dark);
+      font: inherit;
+      font-weight: bold;
+      letter-spacing: 0.8px;
+      cursor: pointer;
+      transition: background 0.25s ease, transform 0.25s ease;
+    }
+
+    button:hover { background: var(--gold-hover); transform: translateY(-2px); }
+    button:disabled { opacity: 0.6; cursor: wait; transform: none; }
+
+    a:focus-visible, button:focus-visible, input:focus-visible {
+      outline: 3px solid var(--gold);
+      outline-offset: 3px;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="login-box">
+    <a class="voltar" href="index.html">← Voltar para a loja</a>
+
+    <h1>Entrar</h1>
+    <p class="sub">Acesse sua conta IM Bíblias.</p>
+
+    <p id="mensagem" role="alert"></p>
+
+    <form id="form-login">
+      <label for="email">E-mail</label>
+      <input id="email" type="email" autocomplete="username" required>
+
+      <label for="senha">Senha</label>
+      <input id="senha" type="password" autocomplete="current-password" required>
+
+      <button id="botao-entrar" type="submit">Entrar</button>
+    </form>
+  </main>
+
+  <script type="module">
+    import { supabase } from './js/supabase.js';
+
+    // Ajuste aqui se os nomes dos arquivos forem diferentes.
+    const PAGINA_ADMIN = 'admin.html';
+    const PAGINA_INICIAL = 'index.html';
+
+    const form = document.getElementById('form-login');
+    const mensagem = document.getElementById('mensagem');
+    const botao = document.getElementById('botao-entrar');
+
+    async function ehAdmin(userId) {
+      const { data, error } = await supabase
+        .from('administradores')
+        .select('user_id')
+        .eq('user_id', userId)
+        .maybeSingle();
+
+      return !error && Boolean(data);
+    }
+
+    // Cada pessoa vai para o seu lugar, sem mostrar o motivo na tela.
+    async function encaminhar(user) {
+      const admin = await ehAdmin(user.id);
+      window.location.replace(admin ? PAGINA_ADMIN : PAGINA_INICIAL);
+    }
+
+    // Se a pessoa já estiver logada, não precisa ver o formulário.
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) await encaminhar(session.user);
+    } catch (erro) {
+      // Segue para o formulário normalmente.
+    }
+
+    form.addEventListener('submit', async (evento) => {
+      evento.preventDefault();
+
+      botao.disabled = true;
+      botao.textContent = 'Entrando...';
+      mensagem.textContent = '';
+
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: document.getElementById('email').value.trim(),
+          password: document.getElementById('senha').value
+        });
+
+        if (error) {
+          mensagem.textContent = 'E-mail ou senha incorretos.';
+          return;
+        }
+
+        await encaminhar(data.user);
+      } catch (erro) {
+        mensagem.textContent = 'Não foi possível entrar agora. Tente novamente.';
+      } finally {
+        botao.disabled = false;
+        botao.textContent = 'Entrar';
+      }
+    });
+  </script>
+</body>
+</html>
